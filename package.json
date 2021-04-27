@@ -6,7 +6,7 @@
         "type": "git",
         "url": "git+https://github.com/jskygithub1/extreme-headless"
     },
-    "author": "<James Young> jygithub1@gmail.com",
+    "author": "<James Young> jygithub@gmail.com",
     "license": "ISC",
     "main": "index.js",
     "scripts": {
