@@ -1,0 +1,31 @@
+<body>
+
+<div>
+	<h1 id="clickme"  onChange="changeField()" onClick="clickField(this)">Click me</h1>
+	<input type="text" id="username" />
+
+	<input type="checkbox" id="cb1" />
+
+
+	<select id="select1">
+		<option value="val1">Value1</option>
+		<option value="val2">Value2</option>
+		<option value="val3" selected>Value3</option>
+		<option value="val4">Value4</option>
+	</select>
+
+</div>
+</body>
+
+<script>
+
+    function changeField() {
+	    console.log( 'changed field');
+    }
+
+    function clickField() {
+        document.getElementById( 'username').value = 'Changed by click';
+        console.log( 'changed by click');
+    }
+
+</script>
