@@ -133,21 +133,14 @@ exports._fillField = ( selector, value ) => {
 
     node.focus ();
     node.value = value;
-    // example keyboard events.   ignore for now
-    // node.focus ();
-    /*for ( let i = 0; i < 10; i++ ) {
-        const event1 = new EXH.dom.window.KeyboardEvent ( 'keydown', { keyCode: 65, bubbles: true, isTrusted: true } );
-        node.dispatchEvent ( event1 );
-        var evt = EXH.dom.window.document.createEvent ( 'HTMLEvents' );
-        evt.initEvent ( 'change', false, true ); // adding this created a magic and passes it as if keypressed
-        node.dispatchEvent ( evt );
-        console.log ( EXH.dom.window.document.getElementById ( 'username' ).value );
 
-    }*/
-    const tabKey = new EXH.dom.window.KeyboardEvent ( 'keydown', { keyCode: 9, bubbles: true } );
-    node.dispatchEvent ( tabKey );
+    // fire onChange
+    const event = EXH.document.createEvent("HTMLEvents");
+    event.initEvent("change", false, true);
+    node.dispatchEvent(event);  // say we've changed it.
 
 };
+
 
 exports._find = ( selector ) => {
     return EXH.dom.window.document.querySelector ( selector );
