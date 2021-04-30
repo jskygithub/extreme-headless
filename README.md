@@ -19,6 +19,7 @@ This is from Puppeteer's GITHUB project. [LINK](https://github.com/puppeteer/pup
 Challenging? Yes and could be impossible to implement in your environment.
 
 <hr />
+
 ## Installation
 
 ```nashorn js
