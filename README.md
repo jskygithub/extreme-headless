@@ -11,7 +11,7 @@ of our end-to-end testing tool available to us in a production environment.
 
 But... there is usually a problem with this.
 
-App servers and API servers generally lack the pre-requisite graphics capability to run browsers such as Webkit
+App servers and API servers generally lack the pre-requisite graphics capability to run browsers based on Webkit etc. 
 which our E2E tools require.   
 
 This is from Puppeteer's GITHUB project. [LINK](https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix)
@@ -295,7 +295,7 @@ const sportsNews = extremeHeadless.find( 'div[data-tab-id="sportsNews"]');
 Similar to find but will return all matches of the CSS selector
 
 ```javascript
-const allDivs = extremeHeadless.fnidAll( 'div'); // find all divs
+const allDivs = extremeHeadless.findAll( 'div'); // find all divs
 
 if ( allDivs ) {
     allDivs.forEach ( ( entry ) => {
@@ -306,7 +306,7 @@ if ( allDivs ) {
 
 ### goto
 
-**goto** simply goes to a page.  It can be relative path (i.e. relative to the baseURL you supply in the options object
+**goto** simply goes to a page.  It can be a relative path (i.e. relative to the baseURL you supply in the options object
 when you initialise extremeHeadless.)
 
 Or, if can be a fully qualified URL (https://new.site.com)
@@ -314,7 +314,7 @@ Or, if can be a fully qualified URL (https://new.site.com)
 The second parameter indicates whether you want to wait for the page to complete loading before returning.
 
 ```javascript
-// https://oogle.com has been provided in the options object.
+// https://google.com has been provided in the options object.
 await extremeHeadless.goto ( '/finance', true ); // go and wait
 ```
 
