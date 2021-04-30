@@ -2,13 +2,14 @@ let dom;
 let window;
 const jsdom = require ( 'jsdom' );
 
-// exports.userAgent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36';
-exports.userAgent ='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4449.0 Safari/537.36 Edg/91.0.838.3';
+// exports.userAgent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86
+// Safari/537.36';
+exports.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4449.0 Safari/537.36 Edg/91.0.838.3';
 exports.jsdomResourceLoader = new jsdom.ResourceLoader ( {
-                                                      strictSSL: false,
-                                                      userAgent: exports.userAgent
+                                                             strictSSL: false,
+                                                             userAgent: exports.userAgent
 
-                                                  } );
+                                                         } );
 const virtualConsole = new jsdom.VirtualConsole ();
 
 virtualConsole.on ( 'log', ( msg ) => {
@@ -57,20 +58,20 @@ exports._createObjects = () => {
     EXH.window.alert = ( message ) => {
         EXH.eventEmitter.emit ( 'alert', message );
         if ( EXH.onAlert ) {
-            return EXH.onAlert( message );
+            return EXH.onAlert ( message );
         }
     };
 
     EXH.window.confirm = ( message ) => {
         EXH.eventEmitter.emit ( 'confirm', message );
         if ( EXH.onConfirm ) {
-            return EXH.onConfirm( message );
+            return EXH.onConfirm ( message );
         }
         return false;
     };
 
     // Override location.href
-    const overrideLocation = JSON.parse( JSON.stringify( EXH.window.location )); // new obj
+    const overrideLocation = JSON.parse ( JSON.stringify ( EXH.window.location ) ); // new obj
 
     Object.defineProperty ( overrideLocation, 'href', {
         configurable: true,
@@ -80,7 +81,7 @@ exports._createObjects = () => {
         },
         set         : ( url ) => {
             EXH.log ( 'HREF', 'set href ' + EXH.realPath );
-            return EXH.options.baseUrl ;
+            return EXH.options.baseUrl;
         }
     } );
 
@@ -88,11 +89,11 @@ exports._createObjects = () => {
 
     const getXMLHttpObject = ( self, type ) => {
         return {
-            readyState: self.readyState,
+            readyState  : self.readyState,
             responseText: self.responseText,
-            responseURL: self.responseURL,
-            eventType: type
-        }
+            responseURL : self.responseURL,
+            eventType   : type
+        };
     };
 
     const xmlOriginal = EXH.window.XMLHttpRequest.prototype.open;
@@ -100,15 +101,15 @@ exports._createObjects = () => {
     EXH.window.XMLHttpRequest.prototype.open = function ( method, url, async, user, password ) {
 
         this.addEventListener ( 'load', function () {
-            EXH.eventEmitter.emit ( 'xhr', getXMLHttpObject( this, 'load' ) );
+            EXH.eventEmitter.emit ( 'xhr', getXMLHttpObject ( this, 'load' ) );
         } );
         return xmlOriginal.apply ( this, [].slice.call ( arguments ) );
     };
     const xmlSend = EXH.window.XMLHttpRequest.prototype.send;
     EXH.window.XMLHttpRequest.prototype.send = function ( method, url, async, user, password ) {
-        this.addEventListener('readystatechange', function() {
-            EXH.eventEmitter.emit ( 'xhr', getXMLHttpObject( this, 'send' ) );
-        });
+        this.addEventListener ( 'readystatechange', function () {
+            EXH.eventEmitter.emit ( 'xhr', getXMLHttpObject ( this, 'send' ) );
+        } );
 
         return xmlSend.apply ( this, [].slice.call ( arguments ) );
     };
@@ -135,12 +136,11 @@ exports._fillField = ( selector, value ) => {
     node.value = value;
 
     // fire onChange
-    const event = EXH.document.createEvent("HTMLEvents");
-    event.initEvent("change", false, true);
-    node.dispatchEvent(event);  // say we've changed it.
+    const event = EXH.document.createEvent ( 'HTMLEvents' );
+    event.initEvent ( 'change', false, true );
+    node.dispatchEvent ( event );  // say we've changed it.
 
 };
-
 
 exports._find = ( selector ) => {
     return EXH.dom.window.document.querySelector ( selector );
@@ -151,19 +151,20 @@ exports._findAll = ( selector ) => {
 };
 
 exports._findByName = ( name ) => {
-    return EXH.dom.window.document.getElementsByName( name );
+    return EXH.dom.window.document.getElementsByName ( name );
 };
 
 exports._findByLinkText = ( text ) => {
     const linkArray = [];
-    const links = exports._findAll( 'a' );
-    links.forEach((entry) => {
+    const links = exports._findAll ( 'a' );
+    links.forEach ( ( entry ) => {
 
-        if ( entry.innerHTML.toLowerCase().indexOf( text.toLowerCase() ) > -1 ) {
-            linkArray.push( entry );
+        if ( entry.innerHTML.toLowerCase ()
+                  .indexOf ( text.toLowerCase () ) > -1 ) {
+            linkArray.push ( entry );
         }
 
-    });
+    } );
 
     return linkArray;
 };
@@ -175,33 +176,37 @@ exports._findByLinkText = ( text ) => {
  * @returns dom.window
  */
 exports._goto = async ( path, wait = false ) => {
-    return new Promise ( async ( resolve, reject ) => {
-        if ( path.startsWith ( 'http' ) ) {
-            EXH.realPath = EXH.options.baseUrl + new URL ( path ).pathname;
-        } else {
-            EXH.realPath = EXH.options.baseUrl + path;
-        }
+    return new Promise ( ( resolve, reject ) => {
 
-        EXH.log ( 'info', `goto: ${ EXH.realPath }` );
+        ( async () => {
+            
+            if ( path.startsWith ( 'http' ) ) {
+                EXH.realPath = EXH.options.baseUrl + new URL ( path ).pathname;
+            } else {
+                EXH.realPath = EXH.options.baseUrl + path;
+            }
 
-        if ( EXH.realPath.startsWith( 'file') ) {
-            let fileName = new URL ( EXH.options.baseUrl ).pathname;
-            EXH.dom = await jsdom.JSDOM.fromFile( fileName, exports.jsdom_options);
-        } else {
-            EXH.dom = await jsdom.JSDOM.fromURL ( EXH.realPath, exports.jsdom_options );
-        }
+            EXH.log ( 'info', `goto: ${ EXH.realPath }` );
 
-        exports._createObjects ();
+            if ( EXH.realPath.startsWith ( 'file' ) ) {
+                let fileName = new URL ( EXH.options.baseUrl ).pathname;
+                EXH.dom = await jsdom.JSDOM.fromFile ( fileName, exports.jsdom_options );
+            } else {
+                EXH.dom = await jsdom.JSDOM.fromURL ( EXH.realPath, exports.jsdom_options );
+            }
 
-        if ( wait ) {
-            EXH.window.addEventListener ( 'load', function () {
+            exports._createObjects ();
+
+            if ( wait ) {
+                EXH.window.addEventListener ( 'load', function () {
+                    EXH.eventEmitter.emit ( 'aftergoto' );
+                    return resolve ( dom );
+                } );
+            } else {
                 EXH.eventEmitter.emit ( 'aftergoto' );
-                return resolve ( dom );
-            } );
-        } else {
-            EXH.eventEmitter.emit ( 'aftergoto' );
-            return resolve ( EXH.dom );
-        }
+                return resolve ( EXH.dom );
+            }
+        } ) ();
     } );
 };
 
@@ -214,25 +219,29 @@ exports._goto = async ( path, wait = false ) => {
  * @private
  */
 exports._waitFor = ( selector, maxWait = EXH.options.timeout * 1000 ) => {
-    return new Promise ( async ( resolve, reject ) => {
+    return new Promise ( ( resolve, reject ) => {
 
-        let isFound = false;
-        const waitTime = 200;
-        const iterations = maxWait * 1000 / waitTime;
-        let count = 0;
-        for ( ; ; ) {
-            isFound = exports._find ( selector ) !== null;
-            await exports._sleep ( waitTime );
+        ( async () => {
 
-            if ( isFound ) {
-                break;
+            let isFound = false;
+            const waitTime = 200;
+            const iterations = maxWait * 1000 / waitTime;
+            let count = 0;
+            for ( ; ; ) {
+                isFound = exports._find ( selector ) !== null;
+                await exports._sleep ( waitTime );
+
+                if ( isFound ) {
+                    break;
+                }
+                count++;
+                if ( count > iterations ) {
+                    break;
+                }
             }
-            count++;
-            if ( count > iterations ) {
-                break;
-            }
-        }
-        resolve ( isFound );
+            resolve ( isFound );
+
+        } ) ();
     } );
 };
 
