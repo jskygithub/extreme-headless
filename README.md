@@ -68,6 +68,9 @@ Extreme headless provides event support that allows you to hook into the followi
 1. aftergoto. After navigation is complete
 1. console. All console.log events from the client site are returned
 1. xhr.  XHR events open and send are passed including readyState, responseText and responseURL.
+1. alert
+1. confirm
+1. shutdown
 
 ## Example of event handling
 
@@ -89,7 +92,7 @@ const events = () => {
 
     extremeHeadless.on( 'confirm', ( message ) => {
         console.log( message );
-        return 1;
+       // return true for OK, false for cancel
     })
 
     extremeHeadless.on( 'console', ( message ) => {
@@ -135,9 +138,13 @@ const extremeHeadless = require ( '../index' );
 
 const initOptions = {
     baseUrl   : 'https://www.google.com',
-    debug     : true,
     strictSSL : true,
-    runScripts: true
+    onAlert, // <== Optional
+    onConfirm, // <== Optional
+    runScripts: true, // Enable JavaScript to run on fetched page
+    userAgent: 'user agent string' // optional
+    // default UA is:
+    // Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4449.0 Safari/537.36 Edg/91.0.838.3
 
 };
 
@@ -187,6 +194,7 @@ Here, I just log the href.
 | init | P1 -> options object |
 | waitFor | P1 -> CSS Selector P2 (optional) -> Timeout value in seconds |
 
+
 <hr />
 
 ## API Examples
@@ -198,11 +206,32 @@ This is always the first call.  It expects an options object.
 Example:
 
 ```javascript
+
+
+/**
+ * Alert callback
+ * @param message
+ */
+const onAlert = ( message ) => {
+    // anything to do?
+};
+
+
+/**
+ * onConfirm callback.
+ * @param message
+ * @returns {boolean} true = ok, false = cancel
+ */
+const onConfirm = ( message ) => {
+    return true; // click 'OK'
+};
+
 const initOptions = {
     baseUrl   : 'https://www.google.com',
-    debug     : true,
     strictSSL : true,
-    runScripts: true
+    onAlert, // alert callback
+    onConfirm, // confirm callback
+    runScripts: true // Enable JavaScript to run on the fetched page
 
 };
 ```
