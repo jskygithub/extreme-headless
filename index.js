@@ -87,6 +87,8 @@ exports.init = ( options ) => {
         },
         eventEmitter,
         log    : _log,
+        onAlert: options.onAlert ? options.onAlert : null,
+        onConfirm: options.onConfirm ? options.onConfirm : null,
         realPath: null,
     };
 

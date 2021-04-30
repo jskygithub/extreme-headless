@@ -3,10 +3,15 @@
  */
 
 const extremeHeadless = require('./index');
+const onConfirm = ( message ) => {
+    return true;
+};
+
 const options = {
     baseUrl : 'file:///home/james/WebstormProjects/extreme-headless/examples/test.html',
     debug     : true,
     ignoreSSL : true,
+    onConfirm,
     runScripts: true
 };
 
@@ -69,6 +74,7 @@ describe('Test Extreme Headless', () => {
         extremeHeadless.click( '#clickme');
         expect ( consoleLog ).toEqual ( 'changed by click' );
     });
+
     it('Go to page.  Click and check value', async () => {
         extremeHeadless.init ( options );
         await extremeHeadless.goto ( '/', true );
@@ -76,6 +82,29 @@ describe('Test Extreme Headless', () => {
         extremeHeadless.click( '#clickme');
         expect ( obj.value ).toEqual( 'Changed by click' );
     });
+
+    it('Go to page.  Click and check alert text', async () => {
+        extremeHeadless.init ( options );
+        let consoleLog = null;
+        extremeHeadless.on( 'alert', ( message ) => {
+            consoleLog =  message;
+        })
+        await extremeHeadless.goto ( '/', true );
+        extremeHeadless.click( '#showAlert');
+        expect ( consoleLog ).toEqual ( 'Hi from an alert!' );
+    });
+
+    it('Go to page.  Fire confirm and click OK.  Check console text', async () => {
+        extremeHeadless.init ( options );
+        let consoleLog = null;
+        extremeHeadless.on( 'alert', ( message ) => {
+            consoleLog =  message;
+        })
+        await extremeHeadless.goto ( '/', true );
+        extremeHeadless.click( '#showConfirm');
+        expect ( consoleLog ).toEqual ( 'You selected OK' ); // onConfirm handler (above) returns true
+    });
+
 
 });
 

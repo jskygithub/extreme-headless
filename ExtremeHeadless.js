@@ -54,8 +54,19 @@ exports._createObjects = () => {
     EXH.window = EXH.dom.window;
     EXH.document = EXH.window.document;
 
-    EXH.window.alert = () => {
-        console.log ( 'Alert ignored...' );
+    EXH.window.alert = ( message ) => {
+        EXH.eventEmitter.emit ( 'alert', message );
+        if ( EXH.onAlert ) {
+            return EXH.onAlert( message );
+        }
+    };
+
+    EXH.window.confirm = ( message ) => {
+        EXH.eventEmitter.emit ( 'confirm', message );
+        if ( EXH.onConfirm ) {
+            return EXH.onConfirm( message );
+        }
+        return false;
     };
 
     // Override location.href

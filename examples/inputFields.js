@@ -1,14 +1,34 @@
 const extremeHeadless = require ( '../index' );
-const domtoimage = require ( 'dom-to-image' );
+
+/**
+ * Alert callback
+ * @param message
+ */
+const onAlert = ( message ) => {
+    // anything to do?
+};
+
+
+/**
+ * onConfirm callback.
+ * @param message
+ * @returns {boolean} true = ok, false = cancel
+ */
+const onConfirm = ( message ) => {
+    return true; // click 'OK'
+};
 
 const initOptions = {
     // baseUrl   : 'http://localhost:3000/',
     baseUrl : 'file:///home/james/WebstormProjects/extreme-headless/examples/test.html',
     debug     : true,
     ignoreSSL : true,
+    onAlert,
+    onConfirm,
     runScripts: true
 
 };
+
 
 const events = () => {
 
@@ -18,6 +38,14 @@ const events = () => {
 
     extremeHeadless.on( 'aftergoto', () => {
         console.log( '** After goto. **');
+    })
+
+    extremeHeadless.on( 'alert', ( message ) => {
+        console.log( message );
+    })
+
+    extremeHeadless.on( 'confirm', ( message ) => {
+        console.log( message );
     })
 
     extremeHeadless.on( 'console', ( message ) => {
@@ -51,11 +79,18 @@ const events = () => {
         extremeHeadless.find( '#select1').selectedIndex = 0;
         console.log( extremeHeadless.find( '#select1').selectedIndex );
         obj = extremeHeadless.find( '#select1');
+
         let values = '';
         for (let i = 0; i < obj.length; i++) {
             values += obj.options[i].value + '\n';
         }
         console.log(values);
+
+        // show alert
+        extremeHeadless.click( '#showAlert');
+
+        // show confirm
+        extremeHeadless.click( '#showConfirm');
 
     } catch ( e ) {
         console.log ( e );

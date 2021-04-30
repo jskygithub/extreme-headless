@@ -49,7 +49,9 @@ Extreme headless provides the following:
 1. Click on an element
 1. Set a value on an input field (input, checkbox, selects)
 1. Wait for an element to appear on the page and specify a custom timeout
-1. Intercept XMLHTTPRequest open and send requests
+1. Be notified of XMLHTTPRequest open and send requests
+1. Intercept and respond to window.confirm
+1. Intercept window.alert
 
 In addition, scripts on the page will be run - even on a click event.  For example, 
 
@@ -65,7 +67,7 @@ Extreme headless provides event support that allows you to hook into the followi
 
 1. aftergoto. After navigation is complete
 1. console. All console.log events from the client site are returned
-1. xhr.  XHR events open and send are returned including readyState, responseText and responseURL.
+1. xhr.  XHR events open and send are passed including readyState, responseText and responseURL.
 
 ## Example of event handling
 
@@ -81,15 +83,47 @@ const events = () => {
         console.log( '** After goto. **');
     })
 
+    extremeHeadless.on( 'alert', ( message ) => {
+        console.log( message );
+    })
+
+    extremeHeadless.on( 'confirm', ( message ) => {
+        console.log( message );
+        return 1;
+    })
+
     extremeHeadless.on( 'console', ( message ) => {
         console.log( message );
     })
 
-    extremeHeadless.on( 'xhr', ( xhrObject ) => {
-        console.log( xhrObject.eventType, xhrObject.readyState, xhrObject.responseURL );
+    extremeHeadless.on( 'xhr', ( responseText, arguments ) => {
+        console.log( arguments );
     })
 }
 
+```
+
+## Alert and Confirm intercept
+
+```javascript
+
+/**
+ * Alert callback
+ * @param message
+ */
+const onAlert = ( message ) => {
+    // anything to do?
+};
+
+
+/**
+ * onConfirm callback.
+ * @param message
+ * @returns {boolean} true = ok, false = cancel
+ */
+const onConfirm = ( message ) => {
+    return true; // same as the user clicking 'ok'
+};
 ```
 
 ## API

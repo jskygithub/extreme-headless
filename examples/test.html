@@ -2,6 +2,11 @@
 
 <div>
 	<h1 id="clickme"  onChange="changeField()" onClick="clickField(this)">Click me</h1>
+
+	<button id="showAlert" onClick="showAlert()">Show an alert!</button>
+
+	<button id="showConfirm" onClick="showConfirm()">Show confirm!</button>
+
 	<input type="text" id="username" />
 
 	<input type="checkbox" id="cb1" />
@@ -26,6 +31,18 @@
     function clickField() {
         document.getElementById( 'username').value = 'Changed by click';
         console.log( 'changed by click');
+    }
+
+    function showAlert( ) {
+        alert( 'Hi from an alert!');
+    }
+
+    function showConfirm( ) {
+        if ( confirm( 'Hi from confirm!') ) {
+            alert( 'You selected OK' );
+        } else {
+            alert( 'You selected cancel' );
+        }
     }
 
 </script>
