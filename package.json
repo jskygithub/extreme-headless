@@ -1,10 +1,10 @@
 {
     "name": "extreme-headless",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Headless Browser in pure JavaScript",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jskygithub1/extreme-headless"
+        "url": "git+https://github.com/jskygithub/extreme-headless"
     },
     "author": "<James Young> jskygithub@gmail.com",
     "license": "ISC",
