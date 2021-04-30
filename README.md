@@ -1,7 +1,7 @@
 # About
 
 End to end ("E2E") testing generally means automating the flow and actions that a 'real' user 
-might take.  Of course, we must also examine the responses that the browser (app) produces to ensure that the app is performing preperly.
+might take.  Of course, we must also examine the responses that the browser (app) produces to ensure that the app is performing properly.
 
 There are plenty of excellent tools available for this.  However, there are also use cases that 
 demand that we 'scrape' sites at runtime.  Some tools provide the ability to produce 
