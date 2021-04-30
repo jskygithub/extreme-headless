@@ -253,15 +253,15 @@ Click an element.  Just like a user would.
 Find an element, then click
 
 ```javascript
-const worldMarkets = extremeHeadless.find( 'div[data-tab-id="worldMarketNews"]');
-extremeHeadless.click( worldMarkets );
+const sportsNews = extremeHeadless.find( 'div[data-tab-id="sportsNews"]');
+extremeHeadless.click( sportsNews );
 ```
 
 Click using a selector
 
 
 ```javascript
-extremeHeadless.click( 'div[data-tab-id="worldMarketNews"]' );
+extremeHeadless.click( 'div[data-tab-id="sportsNews"]' );
 ```
 
 ### fillField
@@ -287,7 +287,7 @@ extremeHeadless.fillField( '#username', 'someone@co.uk');
 Find returns the HTMLElement that matches a CSS selector or null if not found.
 
 ```javascript
-const worldMarkets = extremeHeadless.find( 'div[data-tab-id="worldMarketNews"]');
+const sportsNews = extremeHeadless.find( 'div[data-tab-id="sportsNews"]');
 ```
 
 ### findAll
