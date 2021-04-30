@@ -1,6 +1,6 @@
 {
     "name": "extreme-headless",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "Headless Browser in pure JavaScript",
     "repository": {
         "type": "git",
@@ -12,9 +12,16 @@
     "scripts": {
         "test": "jest --env=node --silent"
     },
-    "keywords": ["headless", "browser", "headless browser", "jsdom"],
+    "keywords": [
+        "headless",
+        "browser",
+        "headless browser",
+        "jsdom"
+    ],
     "devDependencies": {
-        "jest": "^26.6.3",
+        "jest": "^26.6.3"
+    },
+    "dependencies": {
         "jsdom": "^16.5.3"
     }
 }

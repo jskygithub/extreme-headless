@@ -20,6 +20,7 @@ const onConfirm = ( message ) => {
 
 const initOptions = {
     // baseUrl   : 'http://localhost:3000/',
+    // use your own path
     baseUrl : 'file:///home/james/WebstormProjects/extreme-headless/examples/test.html',
     debug     : true,
     ignoreSSL : true,
