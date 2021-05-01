@@ -1,6 +1,6 @@
 {
     "name": "extreme-headless",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "Headless Browser in pure JavaScript",
     "repository": {
         "type": "git",

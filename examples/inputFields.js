@@ -1,3 +1,5 @@
+const path = require("path");
+const testFilePath = path.resolve('test.html');
 const extremeHeadless = require ( '../index' );
 
 /**
@@ -18,10 +20,11 @@ const onConfirm = ( message ) => {
     return true; // click 'OK'
 };
 
+
 const initOptions = {
     // baseUrl   : 'http://localhost:3000/',
     // use your own path
-    baseUrl : 'file:///home/james/WebstormProjects/extreme-headless/examples/test.html',
+    baseUrl : `file:///${testFilePath}`,
     debug     : true,
     ignoreSSL : true,
     onAlert,

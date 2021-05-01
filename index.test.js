@@ -2,13 +2,15 @@
  * @jest-environment node
  */
 
+const path = require("path");
+const testFilePath = path.resolve('examples/test.html');
 const extremeHeadless = require('./index');
 const onConfirm = ( message ) => {
     return true;
 };
 
 const options = {
-    baseUrl : 'file:///home/james/WebstormProjects/extreme-headless/examples/test.html',
+    baseUrl : `file:///${testFilePath}`,
     debug     : true,
     ignoreSSL : true,
     onConfirm,
