@@ -135,7 +135,7 @@ const onConfirm = ( message ) => {
 First, you need to initialise Extreme headless.  It accepts an options object.
 
 ```javascript
-const extremeHeadless = require ( '../index' );
+const extremeHeadless = require ( 'extreme-headless' );
 
 const initOptions = {
     baseUrl   : 'https://www.google.com',
